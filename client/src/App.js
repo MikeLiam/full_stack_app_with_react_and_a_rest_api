@@ -26,8 +26,8 @@ function App() {
         <Route path="/signin" component={UserSignIn} />
         <Route path="/signup" component={UserSignUp} />
         <Route path="/signout" component={UserSignOut} />
-        <Route path="/courses/:id" component={CourseDetail} />
-        {/* <Route path="/courses/:id/update" component={UpdateCourse} /> */}
+        <Route exact path="/courses/:id" component={CourseDetail} />
+        <Route path="/courses/:id/update" component={UpdateCourse} />
         {/* <Route component={NotFound} /> */}
       </Switch>
     </div>

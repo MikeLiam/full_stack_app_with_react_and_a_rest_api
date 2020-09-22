@@ -10,6 +10,7 @@ export default class CourseDetail extends Component {
     course: {},
     materials: [],
     description: [],
+    createdBy:{},
     message: null
   }
 
@@ -38,17 +39,18 @@ export default class CourseDetail extends Component {
         itemsDescription = description.map((item, index) => <ItemDescription text={item} key={index} />)
 
         this.setState(() => {
-            return {course, materials: itemsMaterial, description: itemsDescription}
+            return {course, materials: itemsMaterial, description: itemsDescription, createdBy: course.createdBy}
           })
+          console.log(this.state.createdBy.id)
     })
   }
 
   async deleteCourse() {
-    await this.data.deleteCourse(this.state.course.id).then(message => {
-        this.setState(() => {
-            return {message}
-        })
-    })
+    // await this.data.deleteCourse(this.state.course.id).then(message => {
+    //     this.setState(() => {
+    //         return {message}
+    //     })
+    // })
   }
 
   render() {
@@ -59,7 +61,7 @@ export default class CourseDetail extends Component {
                     <div className="grid-100">
                         <span>
                             <Link className="button" to={"/courses/" + this.state.course.id + "/update"}>Update Course</Link>
-                            <Link className="button" to="#" onClick={this.deleteCourse}>Delete Course</Link>
+                            <Link className="button" to="#" >Delete Course</Link>
                         </span>
                         <Link className="button button-secondary" to="/">Return to List</Link>
                     </div>
@@ -75,7 +77,7 @@ export default class CourseDetail extends Component {
                     <div className="course--header">
                     <h4 className="course--label">Course</h4>
                     <h3 className="course--title">{this.state.course.title}</h3>
-                    <p>By Joe Smith</p>
+                    <p>By {this.state.createdBy.firstName} {this.state.createdBy.lastName}</p>
                 </div>
                 <div className="course--description">
                     {this.state.description}
