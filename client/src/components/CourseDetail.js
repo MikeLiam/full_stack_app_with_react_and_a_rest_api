@@ -41,7 +41,6 @@ export default class CourseDetail extends Component {
         this.setState(() => {
             return {course, materials: itemsMaterial, description: itemsDescription, createdBy: course.createdBy}
           })
-          console.log(this.state.createdBy.id)
     })
   }
 

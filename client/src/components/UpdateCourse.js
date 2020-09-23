@@ -60,9 +60,17 @@ export default class UpdateCourse extends Component {
       userId
     } = this.state;
     const course = {title, description, estimatedTime, materialsNeeded, userId}
-    this.data.updateCourse(this.props.match.params.id, course)
+    const {emailAddress, password} = this.props.context.authenticatedUser
+
+    this.data.updateCourse(this.props.match.params.id, course, emailAddress, password)
       .then( response => {
             console.log(response.message)
+      })
+      .catch( error => {
+        console.log(error.message)
+          this.setState(() => {
+            return {errors: [error.message]}
+          })
       })
   }
 
