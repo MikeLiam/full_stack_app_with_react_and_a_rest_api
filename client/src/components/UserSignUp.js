@@ -4,16 +4,18 @@ import Form from './Form';
 
 export default class UserSignUp extends Component {
   state = {
-    name: '',
-    username: '',
+    firstName: '',
+    lastName: '',
+    emailAddress: "",
     password: '',
     errors: [],
   }
 
   render() {
     const {
-      name,
-      username,
+      firstName,
+      lastName,
+      emailAddress,
       password,
       errors,
     } = this.state;
@@ -30,26 +32,33 @@ export default class UserSignUp extends Component {
             elements={() => (
               <React.Fragment>
                 <input 
-                  id="name" 
-                  name="name" 
+                  id="firstName" 
+                  name="firstName" 
                   type="text"
-                  value={name} 
+                  value={firstName} 
                   onChange={this.change} 
-                  placeholder="Name" />
+                  placeholder="First Name" />
                 <input 
-                  id="username" 
-                  name="username" 
+                  id="lastName" 
+                  name="lastName" 
                   type="text"
-                  value={username} 
+                  value={lastName} 
                   onChange={this.change} 
-                  placeholder="User Name" />
+                  placeholder="Last Name" />
+                <input 
+                  id="emailAddress" 
+                  name="emailAddress" 
+                  type="text"
+                  value={emailAddress} 
+                  onChange={this.change} 
+                  placeholder="Email Address" />
                 <input 
                   id="password" 
                   name="password"
                   type="password"
                   value={password} 
                   onChange={this.change} 
-                  placeholder="Password" />
+                  placeholder="Password" />  
               </React.Fragment>
             )} />
           <p>
@@ -72,27 +81,27 @@ export default class UserSignUp extends Component {
   }
 
   submit = () => {
-    // const { context } = this.props
-    // const { name, username, password } = this.state;
+    const { context } = this.props
+    const { firstName, lastName, emailAddress, password } = this.state;
 
-    // const user = { name, username, password }
-
-    // context.data.createUser(user)
-    //   .then( errors => {
-    //     if (errors.length) {
-    //       this.setState({errors})
-    //     } else {
-    //       console.log(`${username} is successfully signed up and authenticated`)
-    //       context.actions.signIn(username, password)
-    //         .then(() => {
-    //           this.props.history.push('/authenticated')
-    //         })
-    //     }
-    //   })
-    //   .catch( err => {
-    //     console.log(err)
-    //     this.props.history.push('/error')
-    //   })
+    const user = { firstName, lastName, emailAddress, password }
+    console.log(user)
+    context.data.createUser(user)
+      .then( errors => {
+        if (errors.length) {
+          this.setState({errors})
+        } else {
+          console.log(`${user.firstName} ${user.lastName} is successfully signed up and authenticated`)
+          context.actions.signIn(emailAddress, password)
+            .then(() => {
+              this.props.history.push('/')
+            })
+        }
+      })
+      .catch( err => {
+        console.log(err)
+        this.props.history.push('/error')
+      })
   }
   cancel = () => {
     this.props.history.push('/')
