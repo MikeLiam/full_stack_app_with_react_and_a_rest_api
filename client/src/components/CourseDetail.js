@@ -3,6 +3,7 @@ import { Link } from 'react-router-dom';
 import Data from '../Data'
 import ItemMaterial from './ItemMaterial'
 import ItemDescription from './ItemDescription'
+import CoursesError from './CoursesError';
 
 export default class CourseDetail extends Component {
 
@@ -11,7 +12,8 @@ export default class CourseDetail extends Component {
     materials: [],
     description: [],
     createdBy:{},
-    message: null
+    message: null,
+    error: null
   }
 
   constructor() {
@@ -20,39 +22,49 @@ export default class CourseDetail extends Component {
   }
 
   componentDidMount() {
-    this.getCourse(this.props.match.params.id)
-  }
-
-  async getCourse(id) {
     let materials
     let itemsMaterial
     let description
     let itemsDescription
-    await this.data.getCourse(id).then(course => {
-        if (course.materialsNeeded) {
-            materials = course.materialsNeeded.split('* ').slice(1)
-            itemsMaterial = materials.map((item,index) => <ItemMaterial material={item} key={index}/>)
-        } else {
-            itemsMaterial = ["No materials Needed"]
-        }
-        description = course.description.split("\n\n")
-        itemsDescription = description.map((item, index) => <ItemDescription text={item} key={index} />)
+    this.getCourse(this.props.match.params.id)
+        .then((course) => {
+            if (course.materialsNeeded) {
+                materials = course.materialsNeeded.split('* ').slice(1)
+                itemsMaterial = materials.map((item,index) => <ItemMaterial material={item} key={index}/>)
+            } else {
+                itemsMaterial = ["No materials Needed"]
+            }
+            description = course.description.split("\n\n")
+            itemsDescription = description.map((item, index) => <ItemDescription text={item} key={index} />)
+    
+            this.setState(() => {
+                return {course, materials: itemsMaterial, description: itemsDescription, createdBy: course.createdBy}
+              })
+        })
+  }
 
+  async getCourse(id) {
+    return await this.data.getCourse(id).then(course => course)
+  }
+
+   deleteCourse = async () => {
+    const {emailAddress, password} = this.props.context.authenticatedUser
+    await this.data.deleteCourse(this.state.course.id, emailAddress, password)
+    .then(message => {
         this.setState(() => {
-            return {course, materials: itemsMaterial, description: itemsDescription, createdBy: course.createdBy}
-          })
+            return {message}
+        })
+        this.props.history.push("/")
+    })
+    .catch(error => {
+        this.setState(() => {
+            return {error}
+        })
     })
   }
 
-  async deleteCourse() {
-    // await this.data.deleteCourse(this.state.course.id).then(message => {
-    //     this.setState(() => {
-    //         return {message}
-    //     })
-    // })
-  }
-
   render() {
+      const {error} = this.state
     return (
         <div>
             <div className="actions--bar">
@@ -60,16 +72,16 @@ export default class CourseDetail extends Component {
                     <div className="grid-100">
                         <span>
                             <Link className="button" to={"/courses/" + this.state.course.id + "/update"}>Update Course</Link>
-                            <Link className="button" to="#" >Delete Course</Link>
+                            <Link className="button" to="#" onClick={this.deleteCourse}>Delete Course</Link>
                         </span>
                         <Link className="button button-secondary" to="/">Return to List</Link>
                     </div>
-                    {
-                        this.state.message
-                        ? <p>{this.state.message}</p>
-                        : null
-                    }
                 </div>
+                {
+                    this.state.error
+                    ? <CoursesError error={error} />
+                    : null
+                }
             </div>
             <div className="bounds course--detail">
                 <div className="grid-66">

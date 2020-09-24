@@ -91,15 +91,18 @@ export default class Data {
     }
   }
 
-  async deleteCourse(id) {
-    const response = await this.api(`/courses/${id}`, 'DELETE', null);
+  async deleteCourse(id, emailAddress, password) {
+    const response = await this.api(`/courses/${id}`, 'DELETE', null, true, { emailAddress, password });
     if (response.status === 204) {
       const message = `Course ${id} deleted correctly`
       console.log(response.status, ": " , message)
       return message
     }
-    else if (response.status === 403 || response.status === 404) {
-      return response.message;
+    else if (response.status >= 400 && response.status < 500) {
+      const message=  await response.json().then(data => data.message)
+      const error = new Error(message)
+      error.statusCode = response.status
+      throw  error
     }
     else {
       throw new Error();
