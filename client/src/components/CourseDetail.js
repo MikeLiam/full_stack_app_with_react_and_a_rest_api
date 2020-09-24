@@ -1,16 +1,12 @@
 import React, { Component } from 'react';
 import { Link } from 'react-router-dom';
 import Data from '../Data'
-import ItemMaterial from './ItemMaterial'
-import ItemDescription from './ItemDescription'
 import CoursesError from './CoursesError';
-
+import ReactMarkdown from 'react-markdown'
 export default class CourseDetail extends Component {
 
   state = {
     course: {},
-    materials: [],
-    description: [],
     createdBy:{},
     message: null,
     error: null
@@ -22,23 +18,10 @@ export default class CourseDetail extends Component {
   }
 
   componentDidMount() {
-    let materials
-    let itemsMaterial
-    let description
-    let itemsDescription
     this.getCourse(this.props.match.params.id)
         .then((course) => {
-            if (course.materialsNeeded) {
-                materials = course.materialsNeeded.split('* ').slice(1)
-                itemsMaterial = materials.map((item,index) => <ItemMaterial material={item} key={index}/>)
-            } else {
-                itemsMaterial = ["No materials Needed"]
-            }
-            description = course.description.split("\n\n")
-            itemsDescription = description.map((item, index) => <ItemDescription text={item} key={index} />)
-    
             this.setState(() => {
-                return {course, materials: itemsMaterial, description: itemsDescription, createdBy: course.createdBy}
+                return {course, createdBy: course.createdBy}
               })
         })
   }
@@ -100,9 +83,9 @@ export default class CourseDetail extends Component {
                     <h3 className="course--title">{this.state.course.title}</h3>
                     <p>By {this.state.createdBy.firstName} {this.state.createdBy.lastName}</p>
                 </div>
-                <div className="course--description">
-                    {this.state.description}
-                </div>
+                <ReactMarkdown className="course--description">
+                    {this.state.course.description}
+                </ReactMarkdown> 
             </div>
             <div className="grid-25 grid-right">
                 <div className="course--stats">
@@ -114,7 +97,9 @@ export default class CourseDetail extends Component {
                         <li className="course--stats--list--item">
                         <h4>Materials Needed</h4>
                         <ul>
-                            {this.state.materials}
+                            <ReactMarkdown>
+                                {this.state.course.materialsNeeded}
+                            </ReactMarkdown> 
                         </ul>
                         </li>
                     </ul>
