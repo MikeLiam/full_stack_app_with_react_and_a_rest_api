@@ -29,8 +29,8 @@ export default class UpdateCourse extends Component {
             return {
               title: course.title, 
               description: course.description, 
-              estimatedTime: course.estimatedTime, 
-              materialsNeeded: course.materialsNeeded, 
+              estimatedTime: course.estimatedTime || "", 
+              materialsNeeded: course.materialsNeeded || "", 
               userId: course.userId,
               createdBy: course.createdBy}
           })

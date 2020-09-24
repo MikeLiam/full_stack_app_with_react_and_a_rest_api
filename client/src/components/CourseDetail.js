@@ -74,10 +74,16 @@ export default class CourseDetail extends Component {
             <div className="actions--bar">
                 <div className="bounds">
                     <div className="grid-100">
-                        <span>
-                            <Link className="button" to={"/courses/" + this.state.course.id + "/update"}>Update Course</Link>
-                            <Link className="button" to="#" onClick={this.deleteCourse}>Delete Course</Link>
-                        </span>
+                        {
+                            this.props.context.authenticatedUser
+                            ? (                        
+                            <span>
+                                <Link className="button" to={"/courses/" + this.state.course.id + "/update"}>Update Course</Link>
+                                <Link className="button" to="#" onClick={this.deleteCourse}>Delete Course</Link>
+                            </span>
+                            )
+                            : null
+                       }
                         <Link className="button button-secondary" to="/">Return to List</Link>
                     </div>
                 </div>
