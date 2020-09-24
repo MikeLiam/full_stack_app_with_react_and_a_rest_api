@@ -1,5 +1,4 @@
 import React, { Component } from 'react';
-import { Link } from 'react-router-dom';
 import Data from '../Data'
 import Form from './Form'
 
@@ -35,7 +34,6 @@ export default class UpdateCourse extends Component {
               userId: course.userId,
               createdBy: course.createdBy}
           })
-          console.log(this.state.createdBy.id)
     })
   }
 

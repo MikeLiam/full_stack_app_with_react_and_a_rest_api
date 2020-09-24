@@ -99,7 +99,7 @@ router.get('/courses/:id', asyncHandler(async (req, res) => {
 router.post('/courses', authenticateUser, asyncHandler(async (req, res) => {
 
     const course = await Course.create(req.body)
-        .then(course => res.location(`/api/courses/${course.id}`))
+        .then(course => res.location(`/courses/${course.id}`))
 
     res.status(201).end()
 

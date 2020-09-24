@@ -14,6 +14,7 @@ import UserSignOut from './components/UserSignOut';
 import Courses from './components/Courses';
 import CourseDetail from './components/CourseDetail';
 import UpdateCourse from './components/UpdateCourse'
+import CreateCourse from './components/CreateCourse'
 
 import withContext from './Context';
 import PrivateRoute from './PrivateRoute'
@@ -25,6 +26,7 @@ const UserSignOutWithContext = withContext(UserSignOut)
 const CoursesWithContext = withContext(Courses)
 const CoursesDetailWithContext = withContext(CourseDetail)
 const UpdateCourseWithContext = withContext(UpdateCourse)
+const CreateCourseWithContext = withContext(CreateCourse)
 
 
 function App() {
@@ -38,6 +40,7 @@ function App() {
         <Route path="/signin" component={UserSignInWithContext} />
         <Route path="/signup" component={UserSignUpWithContext} />
         <Route path="/signout" component={UserSignOutWithContext} />
+        <PrivateRoute exact path="/courses/create" component={CreateCourseWithContext} />
         <Route exact path="/courses/:id" component={CoursesDetailWithContext} />
         <PrivateRoute path="/courses/:id/update" component={UpdateCourseWithContext} />
         {/* <Route component={NotFound} /> */}

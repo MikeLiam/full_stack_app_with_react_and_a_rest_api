@@ -44,23 +44,27 @@ export default class CourseDetail extends Component {
   }
 
   async getCourse(id) {
-    return await this.data.getCourse(id).then(course => course)
+    return await this.data.getCourse(id).then(course => course).catch(error=> console.log(error))
   }
 
    deleteCourse = async () => {
-    const {emailAddress, password} = this.props.context.authenticatedUser
-    await this.data.deleteCourse(this.state.course.id, emailAddress, password)
-    .then(message => {
-        this.setState(() => {
-            return {message}
-        })
-        this.props.history.push("/")
-    })
-    .catch(error => {
-        this.setState(() => {
-            return {error}
-        })
-    })
+       if (this.props.context.authenticatedUser) {
+            const {emailAddress, password} = this.props.context.authenticatedUser
+            await this.data.deleteCourse(this.state.course.id, emailAddress, password)
+            .then(message => {
+                this.setState(() => {
+                    return {message}
+                })
+                this.props.history.push("/")
+            })
+            .catch(error => {
+                this.setState(() => {
+                    return {error}
+                })
+            })
+       } else {
+           this.props.history.push('/signin')
+       }
   }
 
   render() {
