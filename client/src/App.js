@@ -5,22 +5,23 @@ import {
   Route,
   Switch
 } from 'react-router-dom';
-
+// Stateless components
 import Header from './components/Header';
+import NotFound from './components/NotFound'
+import Forbidden from './components/Forbidden'
+import UnhandledError from './components/UnhandleError'
+import UserSignOut from './components/UserSignOut';
+// Statefull components
 import UserSignIn from './components/UserSignIn';
 import UserSignUp from './components/UserSignUp';
-import UserSignOut from './components/UserSignOut';
 import Courses from './components/Courses';
 import CourseDetail from './components/CourseDetail';
 import UpdateCourse from './components/UpdateCourse'
 import CreateCourse from './components/CreateCourse'
-import NotFound from './components/NotFound'
-import Forbidden from './components/Forbidden'
-import UnhandledError from './components/UnhandleError'
-
+// HO Components for context and authenticated routes
 import withContext from './Context';
 import PrivateRoute from './PrivateRoute'
-
+// Components consuming context
 const HeaderWithContext = withContext(Header)
 const UserSignInWithContext = withContext(UserSignIn)
 const UserSignUpWithContext = withContext(UserSignUp)

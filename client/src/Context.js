@@ -7,7 +7,7 @@ const Context = React.createContext();
 export class Provider extends Component {
 
     state= {
-        authenticatedUser: Cookies.getJSON('authenticatedUser') || null
+        authenticatedUser: Cookies.getJSON('authenticatedUser') || null // if there was authenticated user previous refresh etc
     }
 
     constructor() {
@@ -32,11 +32,15 @@ export class Provider extends Component {
         )
     }
 
-
+    /**
+     * Check if user exist and are valid credentials
+     * @param {String} emailAddress 
+     * @param {String} password 
+     */
     signIn = async (emailAddress, password) => {
         const user = await this.data.getUser(emailAddress, password)
         if (user !== null) {
-            user.password = password // Only for develepment purpose
+            user.password = password // Only for develepment purpose to persist session
             Cookies.set('authenticatedUser', JSON.stringify(user), { expires: 1 })
             // user.password = password // For production to not maintain password at cookies
             this.setState(() => {
@@ -45,7 +49,10 @@ export class Provider extends Component {
         }
         return user
     }
-
+    
+    /**
+     * Delete all persisted credentials
+     */
     signOut = () => {
         Cookies.remove('authenticatedUser')
         this.setState(() => {
@@ -54,6 +61,7 @@ export class Provider extends Component {
 
     }
 }
+
 export const Consumer = Context.Consumer
 
 /**
