@@ -1,5 +1,4 @@
 import React from 'react';
-import logo from './logo.svg';
 import './App.css';
 import {
   BrowserRouter as Router,
@@ -15,6 +14,9 @@ import Courses from './components/Courses';
 import CourseDetail from './components/CourseDetail';
 import UpdateCourse from './components/UpdateCourse'
 import CreateCourse from './components/CreateCourse'
+import NotFound from './components/NotFound'
+import Forbidden from './components/Forbidden'
+import UnhandledError from './components/UnhandleError'
 
 import withContext from './Context';
 import PrivateRoute from './PrivateRoute'
@@ -43,7 +45,9 @@ function App() {
         <PrivateRoute exact path="/courses/create" component={CreateCourseWithContext} />
         <Route exact path="/courses/:id" component={CoursesDetailWithContext} />
         <PrivateRoute path="/courses/:id/update" component={UpdateCourseWithContext} />
-        {/* <Route component={NotFound} /> */}
+        <Route path="/forbidden" component={Forbidden} />
+        <Route path="/error" component={UnhandledError} />
+        <Route component={NotFound} />
       </Switch>
     </div>
   </Router>

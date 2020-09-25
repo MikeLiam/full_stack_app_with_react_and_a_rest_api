@@ -11,7 +11,6 @@ export default class UpdateCourse extends Component {
     materialsNeeded: "",
     userId: null,
     createdBy: {},
-    message: null,
     errors:[]
   }
 
@@ -21,11 +20,9 @@ export default class UpdateCourse extends Component {
   }
   componentDidMount() {
     this.getCourse(this.props.match.params.id)
-  }
-
-  async getCourse(id) {
-    await this.data.getCourse(id).then(course => {
-        this.setState(() => {
+      .then( course => {
+        if (course.createdBy.id === this.props.context.authenticatedUser.id) {
+          this.setState(() => {
             return {
               title: course.title, 
               description: course.description, 
@@ -34,7 +31,18 @@ export default class UpdateCourse extends Component {
               userId: course.userId,
               createdBy: course.createdBy}
           })
-    })
+        } else {
+          this.props.history.push('/forbidden')
+        }
+      })
+      .catch((error) => {
+        this.props.history.push(error.message)
+      })
+  }
+
+  async getCourse(id) {
+     return await this.data.getCourse(id).then(course => course)
+    
   }
 
   change = (event) => {
@@ -62,13 +70,16 @@ export default class UpdateCourse extends Component {
 
     this.data.updateCourse(this.props.match.params.id, course, emailAddress, password)
       .then( response => {
-            console.log(response.message)
+            this.props.history.push(response.location)
       })
       .catch( error => {
-        console.log(error.message)
+        if (error.statusCode) {
           this.setState(() => {
             return {errors: [error.message]}
           })
+        } else {
+          this.props.history.push(error.message)
+        }
       })
   }
 

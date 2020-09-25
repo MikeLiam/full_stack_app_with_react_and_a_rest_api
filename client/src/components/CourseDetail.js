@@ -24,20 +24,24 @@ export default class CourseDetail extends Component {
                 return {course, createdBy: course.createdBy}
               })
         })
+        .catch((error) => {
+            this.props.history.push(error.message)
+        })
+
   }
 
   async getCourse(id) {
-    return await this.data.getCourse(id).then(course => course).catch(error=> console.log(error))
+    return await this.data.getCourse(id)
+        .then(course => course)        
   }
+
 
    deleteCourse = async () => {
        if (this.props.context.authenticatedUser) {
             const {emailAddress, password} = this.props.context.authenticatedUser
             await this.data.deleteCourse(this.state.course.id, emailAddress, password)
             .then(message => {
-                this.setState(() => {
-                    return {message}
-                })
+                console.log(message)
                 this.props.history.push("/")
             })
             .catch(error => {
@@ -52,13 +56,14 @@ export default class CourseDetail extends Component {
 
   render() {
       const {error} = this.state
+      const enableActions = (this.props.context.authenticatedUser && (this.props.context.authenticatedUser.id === this.state.createdBy.id) )
     return (
         <div>
             <div className="actions--bar">
                 <div className="bounds">
                     <div className="grid-100">
                         {
-                            this.props.context.authenticatedUser
+                            enableActions
                             ? (                        
                             <span>
                                 <Link className="button" to={"/courses/" + this.state.course.id + "/update"}>Update Course</Link>

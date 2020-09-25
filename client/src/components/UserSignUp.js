@@ -8,6 +8,7 @@ export default class UserSignUp extends Component {
     lastName: '',
     emailAddress: "",
     password: '',
+    confirmPassword: "",
     errors: [],
   }
 
@@ -17,6 +18,7 @@ export default class UserSignUp extends Component {
       lastName,
       emailAddress,
       password,
+      confirmPassword,
       errors,
     } = this.state;
 
@@ -59,6 +61,13 @@ export default class UserSignUp extends Component {
                   value={password} 
                   onChange={this.change} 
                   placeholder="Password" />  
+                <input 
+                  id="confirmPassword" 
+                  name="confirmPassword"
+                  type="password"
+                  value={confirmPassword} 
+                  onChange={this.change} 
+                  placeholder="Confirm Password" />  
               </React.Fragment>
             )} />
           <p>
@@ -83,27 +92,43 @@ export default class UserSignUp extends Component {
   submit = () => {
     const { context } = this.props
     const { firstName, lastName, emailAddress, password } = this.state;
-
-    const user = { firstName, lastName, emailAddress, password }
-    console.log(user)
-    context.data.createUser(user)
-      .then( errors => {
-        if (errors.length) {
-          this.setState({errors})
-        } else {
-          console.log(`${user.firstName} ${user.lastName} is successfully signed up and authenticated`)
-          context.actions.signIn(emailAddress, password)
-            .then(() => {
-              this.props.history.push('/')
-            })
-        }
-      })
-      .catch( err => {
-        console.log(err)
-        this.props.history.push('/error')
-      })
+    if (this.confirmedPassword()) {
+      const user = { firstName, lastName, emailAddress, password }
+      context.data.createUser(user)
+        .then( errors => {
+          if (errors.length) {
+            this.setState({errors})
+          } else {
+            console.log(`${user.firstName} ${user.lastName} is successfully signed up and authenticated`)
+            context.actions.signIn(emailAddress, password)
+              .then(() => {
+                this.props.history.push('/')
+              })
+          }
+        })
+        .catch( err => {
+          console.log(err)
+          this.props.history.push('/error')
+        })
+      }
   }
   cancel = () => {
     this.props.history.push('/')
+  }
+
+  confirmedPassword() {
+    const { password, confirmPassword } = this.state;
+    let message = ""
+    if (password !== '' && confirmPassword !== '') {
+      if (password === confirmPassword){
+        return true
+      } else {
+        message = "Passwords don't match"
+      }
+    } else {
+      message = "Passwords can't be empty"
+    }
+    this.setState({errors: [message]})
+    return false
   }
 }

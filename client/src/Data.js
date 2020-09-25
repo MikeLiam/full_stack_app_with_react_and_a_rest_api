@@ -33,7 +33,7 @@ export default class Data {
       return null;
     }
     else {
-      throw new Error();
+      throw new Error(this.handlePageError(response.status));
     }
   }
   
@@ -48,7 +48,7 @@ export default class Data {
       });
     }
     else {
-      throw new Error();
+      throw new Error(this.handlePageError(response.status));
     }
   }
 
@@ -61,7 +61,7 @@ export default class Data {
       return null;
     }
     else {
-      throw new Error();
+      throw new Error(this.handlePageError(response.status));
     }
   }
 
@@ -74,7 +74,7 @@ export default class Data {
       return null;
     }
     else {
-      throw new Error();
+      throw new Error(this.handlePageError(response.status));
     }
   }
   
@@ -83,24 +83,27 @@ export default class Data {
     if (response.status === 201) {
       return {message: "Course created", location: response.headers.get("Location")};
     }
-    else if (response.status >= 400 && response.status < 500) {
+    else if (response.status === 400) {
       throw  new Error( await response.json().then(data => data.message));
     }
     else {
-      throw new Error();
+      throw new Error(this.handlePageError(response.status));
     }
   }
 
   async updateCourse(id , course, emailAddress, password) {
     const response = await this.api(`/courses/${id}`, 'PUT', course, true, { emailAddress, password });
     if (response.status === 204) {
-      return {message: "Course updated"};
+      return {location: `/courses/${id}`};
     }
-    else if (response.status >= 400 && response.status < 500) {
-      throw  new Error( await response.json().then(data => data.message));
+    else if (response.status === 400 || response.status === 401) {
+      const error = new Error()
+      error.statusCode = 400
+      error.message = await response.json().then(data => data.message)
+      throw  error;
     }
     else {
-      throw new Error();
+      throw new Error(this.handlePageError(response.status));
     }
   }
 
@@ -108,17 +111,27 @@ export default class Data {
     const response = await this.api(`/courses/${id}`, 'DELETE', null, true, { emailAddress, password });
     if (response.status === 204) {
       const message = `Course ${id} deleted correctly`
-      console.log(response.status, ": " , message)
       return message
     }
-    else if (response.status >= 400 && response.status < 500) {
+    else if (response.status === 400 || response.status === 401) {
       const message=  await response.json().then(data => data.message)
       const error = new Error(message)
       error.statusCode = response.status
       throw  error
     }
     else {
-      throw new Error();
+      throw new Error(this.handlePageError(response.status));
+    }
+  }
+
+  handlePageError(statusCode) {
+    const code = statusCode
+    if (code === 500) {
+      return "/error"
+    } else if (code === 403 ){
+        return "/forbidden"
+      } else if (code === 404) {
+          return "/notfound"
     }
   }
 

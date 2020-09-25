@@ -1,7 +1,6 @@
 import React, { Component } from 'react';
 import Course from './Course'
 import NewCourse from './NewCourse'
-import CoursesError from './CoursesError'
 
 export default class Courses extends Component {
 
@@ -32,14 +31,8 @@ export default class Courses extends Component {
         })
       })
       .catch(error => {
-        if (error.statusCode !== 404) {
-          error.statusCode = 500
-          error.message = `Server error: ${error.message}`
-        }
-        components.push(<CoursesError error={error} key="error"/>)
-        this.setState(() => {
-          return {courses: components}
-        })
+        console.error(error.message)
+        this.props.history.push('/error')
       })
   }
 }
