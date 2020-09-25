@@ -1,15 +1,13 @@
 import React, { Component } from 'react';
 import { Link } from 'react-router-dom';
 import Data from '../Data'
-import CoursesError from './CoursesError';
 import ReactMarkdown from 'react-markdown'
 export default class CourseDetail extends Component {
 
   state = {
     course: {},
     createdBy:{},
-    message: null,
-    error: null
+    message: null
   }
 
   constructor() {
@@ -45,9 +43,7 @@ export default class CourseDetail extends Component {
                 this.props.history.push("/")
             })
             .catch(error => {
-                this.setState(() => {
-                    return {error}
-                })
+                this.props.history.push(error.message)
             })
        } else {
            this.props.history.push('/signin')
@@ -55,7 +51,6 @@ export default class CourseDetail extends Component {
   }
 
   render() {
-      const {error} = this.state
       const enableActions = (this.props.context.authenticatedUser && (this.props.context.authenticatedUser.id === this.state.createdBy.id) )
     return (
         <div>
@@ -75,11 +70,6 @@ export default class CourseDetail extends Component {
                         <Link className="button button-secondary" to="/">Return to List</Link>
                     </div>
                 </div>
-                {
-                    this.state.error
-                    ? <CoursesError error={error} />
-                    : null
-                }
             </div>
             <div className="bounds course--detail">
                 <div className="grid-66">
