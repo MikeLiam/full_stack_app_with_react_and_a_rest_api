@@ -84,7 +84,7 @@ export default class UpdateCourse extends Component {
   }
 
   cancel = () => {
-    this.props.history.push('/')
+    this.props.history.goBack()
   }
 
   render() {

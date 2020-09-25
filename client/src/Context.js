@@ -36,8 +36,9 @@ export class Provider extends Component {
     signIn = async (emailAddress, password) => {
         const user = await this.data.getUser(emailAddress, password)
         if (user !== null) {
+            user.password = password // Only for develepment purpose
             Cookies.set('authenticatedUser', JSON.stringify(user), { expires: 1 })
-            user.password = password
+            // user.password = password // For production to not maintain password at cookies
             this.setState(() => {
                 return { authenticatedUser: user}
             })
