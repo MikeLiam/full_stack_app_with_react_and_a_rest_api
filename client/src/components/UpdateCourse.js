@@ -19,8 +19,10 @@ export default class UpdateCourse extends Component {
     this.data = new Data();
   }
   componentDidMount() {
+    // Get course with id 
     this.getCourse(this.props.match.params.id)
       .then( course => {
+        // if course owner's id coincide with user authenticated id
         if (course.createdBy.id === this.props.context.authenticatedUser.id) {
           this.setState(() => {
             return {
@@ -32,19 +34,28 @@ export default class UpdateCourse extends Component {
               createdBy: course.createdBy}
           })
         } else {
+          // no coincide redirect to forbidden page
           this.props.history.push('/forbidden')
         }
       })
       .catch((error) => {
+        // Redirect to error page of convenience 
         this.props.history.push(error.message)
       })
   }
 
+  /**
+   * Request course with id from api
+   * @param {Integer} id 
+   */
   async getCourse(id) {
      return await this.data.getCourse(id).then(course => course)
-    
   }
 
+  /**
+   * Inputs on change handler to manage values
+   * @param {Object} event 
+   */
   change = (event) => {
     const name = event.target.name;
     const value = event.target.value;
@@ -56,7 +67,9 @@ export default class UpdateCourse extends Component {
     });
   }
 
-
+  /**
+   * On Submit form event to request to update course with values
+   */
   submit = () => {
     const {         
       title,
@@ -65,7 +78,9 @@ export default class UpdateCourse extends Component {
       materialsNeeded,
       userId
     } = this.state;
+    // Setting course object with values from state after set from inputs adding user id
     const course = {title, description, estimatedTime, materialsNeeded, userId}
+    // Get credentials
     const {emailAddress, password} = this.props.context.authenticatedUser
 
     this.data.updateCourse(this.props.match.params.id, course, emailAddress, password)
@@ -73,16 +88,21 @@ export default class UpdateCourse extends Component {
             this.props.history.push(response.location)
       })
       .catch( error => {
-        if (error.statusCode) {
+        // if error has status code
+        if (error.status) {
+          // set validation errors
           this.setState(() => {
             return {errors: [error.message]}
           })
         } else {
+          // else Redirect to error page of convenience 
           this.props.history.push(error.message)
         }
       })
   }
-
+  /**
+   * If user cancel redirect to homepage
+   */
   cancel = () => {
     this.props.history.goBack()
   }

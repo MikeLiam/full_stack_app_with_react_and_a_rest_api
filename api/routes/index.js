@@ -25,6 +25,7 @@ const {
 
 // *Authenticated Route that returns the current authenticated user.
 router.get('/users', authenticateUser, (req, res) => {
+
     const user = req.currentUser
 
     res.json({

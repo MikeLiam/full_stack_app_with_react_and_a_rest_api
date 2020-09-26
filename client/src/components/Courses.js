@@ -9,6 +9,7 @@ export default class Courses extends Component {
   }
 
   componentDidMount() {
+    // Get courses from api
     this.getCourses()
   }
 
@@ -19,12 +20,19 @@ export default class Courses extends Component {
       </div>
     );
   }
+
+  /**
+   * Async function call and manage response or error on fetching
+   */
   getCourses = async () => {
     const { context } = this.props
     let components =[]
+
     await context.data.getCourses()
       .then(courses => {
+        // Array with Course component of every course
         components = courses.map( course => <Course course={course} key={course.id}/>)
+        // Last, push for create course, NewCourse component
         components.push(<NewCourse key="newcourse"/>)
         this.setState(() => {
           return {courses: components}
@@ -32,7 +40,8 @@ export default class Courses extends Component {
       })
       .catch(error => {
         console.error(error.message)
-        this.props.history.push('/error')
+        // Redirect to error page of convenience 
+        this.props.history.push(error.message)
       })
   }
 }

@@ -9,6 +9,52 @@ export default class UserSignIn extends Component {
     errors: [],
   }
 
+  /**
+   * Inputs on change handler to manage values
+   * @param {Object} event 
+   */
+  change = (event) => {
+    const name = event.target.name;
+    const value = event.target.value;
+
+    this.setState(() => {
+      return {
+        [name]: value
+      };
+    });
+  }
+  
+  /**
+   * On submit form to sig in user with credentials and redirect to last private route or homepage
+   */
+  submit = () => {
+    const { context } = this.props
+    const { emailAddress, password } = this.state
+    // if redirected from private route or not
+    const { from } = this.props.location.state || { from: { pathname: '/'} }
+    context.actions.signIn(emailAddress, password)
+      .then( user => {
+        console.log(`SUCCESS! ${user.firstName} ${user.lastName} is now signed in!`)
+        // if correct sign in redirect to private route or homepage
+        this.props.history.push(from)
+      })
+      .catch( error => {
+        if (error.status) {
+          // no user, show wvalidations errors
+          this.setState(() => {
+            return {errors: [error.message]}
+          })
+        } else {
+          // no Ok redirect to error page of convenience
+          this.props.history.push(error.message)
+        }
+      })
+  }
+
+  cancel = () => {
+    this.props.history.push('/')
+  }
+
   render() {
     const {
       emailAddress,
@@ -49,41 +95,5 @@ export default class UserSignIn extends Component {
         </div>
       </div>
     );
-  }
-
-  change = (event) => {
-    const name = event.target.name;
-    const value = event.target.value;
-
-    this.setState(() => {
-      return {
-        [name]: value
-      };
-    });
-  }
-
-  submit = () => {
-    const { context } = this.props
-    const { emailAddress, password } = this.state
-    const { from } = this.props.location.state || { from: { pathname: '/'} }
-    context.actions.signIn(emailAddress, password)
-      .then( user => {
-        if (user === null) {
-          this.setState(() => {
-            return { errors: [ 'Sign-in was unsuccessful' ] };
-          });
-        } else {
-          this.props.history.push(from)
-          console.log(`SUCCESS! ${user.firstName} ${user.lastName} is now signed in!`)
-        }
-      })
-      .catch( err => {
-        console.log(err)
-        this.props.history.push('/error')
-      })
-  }
-
-  cancel = () => {
-    this.props.history.push('/')
   }
 }

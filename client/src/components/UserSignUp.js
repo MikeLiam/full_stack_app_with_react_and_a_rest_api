@@ -12,6 +12,83 @@ export default class UserSignUp extends Component {
     errors: [],
   }
 
+    /**
+   * Inputs on change handler to manage values
+   * @param {Object} event 
+   */
+  change = (event) => {
+    const name = event.target.name;
+    const value = event.target.value;
+
+    this.setState(() => {
+      return {
+        [name]: value
+      };
+    });
+  }
+
+  /**
+   * On submit form to create and sign in user
+   */
+  submit = async () => {
+    const { context } = this.props
+    // Get user info
+    const { firstName, lastName, emailAddress, password } = this.state;
+    // if passwords match
+    if (this.confirmedPassword()) {
+      // Assign user object
+      const user = { firstName, lastName, emailAddress, password }
+      // request to create new user to api
+      await context.data.createUser(user)
+        .then( () => {
+            // sign in user and redirect to homepage
+            console.log(`${user.firstName} ${user.lastName} is successfully signed up and authenticated`)
+            context.actions.signIn(emailAddress, password)
+              .then(() => {
+                this.props.history.push('/')
+              })
+          }
+        )
+        .catch( error => {
+          // Show validation errors if there are
+          if (error.statusCode) {
+            this.setState({errors: error.errors})
+          } else {
+          // Redirect to error page of convenience 
+          this.props.history.push(error.message)
+          }
+        })
+      }
+  }
+
+  /**
+   * If user cancel redirect to homepage
+   */
+  cancel = () => {
+    this.props.history.push('/')
+  }
+
+  /**
+   * Passwords match or show validation error
+   */
+  confirmedPassword() {
+    const { password, confirmPassword } = this.state;
+    let message = ""
+    // if not empty
+    if (password !== '' && confirmPassword !== '') {
+      // if match
+      if (password === confirmPassword){
+        return true
+      } else {
+        message = "Passwords don't match"
+      }
+    } else {
+      message = "Passwords can't be empty"
+    }
+    this.setState({errors: [message]})
+    return false
+  }
+
   render() {
     const {
       firstName,
@@ -76,59 +153,5 @@ export default class UserSignUp extends Component {
         </div>
       </div>
     );
-  }
-
-  change = (event) => {
-    const name = event.target.name;
-    const value = event.target.value;
-
-    this.setState(() => {
-      return {
-        [name]: value
-      };
-    });
-  }
-
-  submit = () => {
-    const { context } = this.props
-    const { firstName, lastName, emailAddress, password } = this.state;
-    if (this.confirmedPassword()) {
-      const user = { firstName, lastName, emailAddress, password }
-      context.data.createUser(user)
-        .then( errors => {
-          if (errors.length) {
-            this.setState({errors})
-          } else {
-            console.log(`${user.firstName} ${user.lastName} is successfully signed up and authenticated`)
-            context.actions.signIn(emailAddress, password)
-              .then(() => {
-                this.props.history.push('/')
-              })
-          }
-        })
-        .catch( err => {
-          console.log(err)
-          this.props.history.push('/error')
-        })
-      }
-  }
-  cancel = () => {
-    this.props.history.push('/')
-  }
-
-  confirmedPassword() {
-    const { password, confirmPassword } = this.state;
-    let message = ""
-    if (password !== '' && confirmPassword !== '') {
-      if (password === confirmPassword){
-        return true
-      } else {
-        message = "Passwords don't match"
-      }
-    } else {
-      message = "Passwords can't be empty"
-    }
-    this.setState({errors: [message]})
-    return false
   }
 }

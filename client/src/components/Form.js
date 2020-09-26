@@ -9,11 +9,19 @@ export default (props) => {
     elements,
   } = props;
 
+  /**
+   * Handle on submit form event to call parent's submit function
+   * @param {Object} event 
+   */
   function handleSubmit(event) {
     event.preventDefault();
     submit();
   }
 
+  /**
+   * Handle cancel form event to call parent's cancel function
+   * @param {Object} event 
+   */
   function handleCancel(event) {
     event.preventDefault();
     cancel();
@@ -21,9 +29,12 @@ export default (props) => {
 
   return (
     <div>
+      {/* For validation errors */}
       <ErrorsDisplay errors={errors} />
       <form onSubmit={handleSubmit}>
+        {/* elements passed from parent component */}
         {elements()}
+        {/* Buttons for on submit and cancel form */}
         <div className="pad-bottom">
           <button className="button" type="submit">{submitButtonText}</button>
           <button className="button button-secondary" onClick={handleCancel}>Cancel</button>
@@ -33,6 +44,10 @@ export default (props) => {
   );
 }
 
+/**
+ * Stateless component to show validation errors 
+ * @param {Array} param0 
+ */
 function ErrorsDisplay({ errors }) {
   let errorsDisplay = null;
 

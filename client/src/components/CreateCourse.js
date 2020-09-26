@@ -19,6 +19,10 @@ export default class CreateCourse extends Component {
     this.data = new Data();
   }
 
+  /**
+   * Inputs on change handler to manage values
+   * @param {Object} event 
+   */
   change = (event) => {
     const name = event.target.name;
     const value = event.target.value;
@@ -36,6 +40,9 @@ export default class CreateCourse extends Component {
       })
   }
 
+  /**
+   * On Submit form event to request to create new course with values
+   */
   submit = () => {
     const {         
       title,
@@ -44,22 +51,33 @@ export default class CreateCourse extends Component {
       materialsNeeded,
       user
     } = this.state;
+    // Setting course object with values from state after set from inputs adding user id
     const course = {title, description, estimatedTime, materialsNeeded, userId: user.id}
+    // Get credentials to authentication request
     const {emailAddress, password} = user
 
     this.data.createCourse(course, emailAddress, password)
       .then( response => {
             console.log(response.message)
+            // if OK redirect to course location on response header
             this.props.history.push(response.location)
       })
       .catch( error => {
-        console.log(error.message)
+        if (error.status) {
+          // no OK validations errors
           this.setState(() => {
-            return {errors: [error.message]}
+            return {errors: error.message}
           })
+        } else {
+          // no Ok redirect to error page of convenience
+          this.props.history.push(error.message)
+        }
       })
   }
 
+  /**
+   * If user cancel redirect to homepage
+   */
   cancel = () => {
     this.props.history.push('/')
   }
@@ -150,6 +168,4 @@ export default class CreateCourse extends Component {
     </div>
     );
   }
-
-
 }

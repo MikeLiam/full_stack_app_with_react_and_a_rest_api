@@ -16,6 +16,7 @@ export default class CourseDetail extends Component {
   }
 
   componentDidMount() {
+    // Get course with id and set in state
     this.getCourse(this.props.match.params.id)
         .then((course) => {
             this.setState(() => {
@@ -23,34 +24,54 @@ export default class CourseDetail extends Component {
               })
         })
         .catch((error) => {
+            // Redirect to error page of convenience
             this.props.history.push(error.message)
         })
 
   }
 
+  /**
+   * Get course with id from api
+   * @param {Integer} id 
+   */
   async getCourse(id) {
     return await this.data.getCourse(id)
         .then(course => course)        
   }
 
-
+  /**
+   * Request for delete a course with id
+   */
    deleteCourse = async () => {
+       // If there is an user authenticated
        if (this.props.context.authenticatedUser) {
+           // get credentials
             const {emailAddress, password} = this.props.context.authenticatedUser
+            // request for delete
             await this.data.deleteCourse(this.state.course.id, emailAddress, password)
             .then(message => {
                 console.log(message)
+                // if OK redirect to home page
                 this.props.history.push("/")
             })
-            .catch(error => {
-                this.props.history.push(error.message)
+            .catch(error => {        
+                if (error.status) {
+                    this.setState(() => {
+                    return {errors: [error.message]}
+                    })
+                } else {
+                    // no OK Redirect to error page of convenience
+                    this.props.history.push(error.message)
+                }
             })
        } else {
+           // else redirect for user to sig in
            this.props.history.push('/signin')
        }
   }
 
   render() {
+      // Variable to control if there is an user authenticated and the course owner's id coincides with the user authenticated
       const enableActions = (this.props.context.authenticatedUser && (this.props.context.authenticatedUser.id === this.state.createdBy.id) )
     return (
         <div>
@@ -58,6 +79,7 @@ export default class CourseDetail extends Component {
                 <div className="bounds">
                     <div className="grid-100">
                         {
+                            // If true show update and delete course button
                             enableActions
                             ? (                        
                             <span>
@@ -78,6 +100,7 @@ export default class CourseDetail extends Component {
                     <h3 className="course--title">{this.state.course.title}</h3>
                     <p>By {this.state.createdBy.firstName} {this.state.createdBy.lastName}</p>
                 </div>
+                {/* Added support for rendereing markdown formatted text */}
                 <ReactMarkdown className="course--description">
                     {this.state.course.description}
                 </ReactMarkdown> 
@@ -92,6 +115,7 @@ export default class CourseDetail extends Component {
                         <li className="course--stats--list--item">
                         <h4>Materials Needed</h4>
                         <ul>
+                            {/* Added support for rendereing markdown formatted text */}
                             <ReactMarkdown>
                                 {this.state.course.materialsNeeded}
                             </ReactMarkdown> 

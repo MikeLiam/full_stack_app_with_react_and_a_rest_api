@@ -40,9 +40,10 @@ export default class Data {
     const response = await this.api(`/users`, 'GET', null, true, { emailAddress, password});
     if (response.status === 200) {
       return response.json().then(data => data.user);
-    }
-    else if (response.status === 401) {
-      return null;
+    } else if (response.status === 401) { // access denied to show validation errors
+      const error = new Error(await response.json().then(data => data.message))
+      error.status = response.status
+      throw  error;
     }
     else {
       throw new Error(this.handlePageError(response.status));
@@ -55,16 +56,22 @@ export default class Data {
    */
   async createUser(user) {
     const response = await this.api('/users', 'POST', user);
-    if (response.status === 201) {
+    const code = response.status
+    if (code === 201) {
       return [];
     }
-    else if (response.status === 400) { // bad request to show validation errors
-      return response.json().then(data => {
-        return data.errors;
-      });
-    }
-    else {
-      throw new Error(this.handlePageError(response.status));
+    else{
+      const error = await response.json().then(data => data)
+      if (code === 400 || code === 500) { // bad request to show validation errors
+        error.statusCode = response.status;
+        // if existing emailaddres error (code 500 + error field)
+        if (error.error) {
+          error.errors = [error.message]
+        }
+        throw  error;
+      } else {
+        throw new Error(this.handlePageError(response.status));
+      }
     }
   }
 
@@ -107,7 +114,8 @@ export default class Data {
       return {message: "Course created", location: response.headers.get("Location")};
     }
     else if (response.status === 400) { // bad request to show validation errors
-      throw  new Error( await response.json().then(data => data.message));
+      const error = await response.json().then(data => data.error)
+      throw  error;
     }
     else {
       throw new Error(this.handlePageError(response.status));
@@ -127,9 +135,7 @@ export default class Data {
       return {location: `/courses/${id}`};
     }
     else if (response.status === 400 || response.status === 401) { // bad request or acces denied to show validation errors
-      const error = new Error()
-      error.statusCode = 400
-      error.message = await response.json().then(data => data.message)
+      const error = await response.json().then(data => data.error)
       throw  error;
     }
     else {
@@ -150,10 +156,8 @@ export default class Data {
       return message
     }
     else if (response.status === 400 || response.status === 401) { // bad request or acces denied to show validation errors
-      const message=  await response.json().then(data => data.message)
-      const error = new Error(message)
-      error.statusCode = response.status
-      throw  error
+      const error = await response.json().then(data => data.error)
+      throw  error;
     }
     else {
       throw new Error(this.handlePageError(response.status));

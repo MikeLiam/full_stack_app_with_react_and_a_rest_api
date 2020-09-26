@@ -63,7 +63,7 @@ function asyncHandler(cb) {
 /**
  * Middleware to authenticate user through email/password
  */
-const authenticateUser = async (req, res, next) => {
+const authenticateUser =  async (req, res, next) => {
     /**
      * Destructuring assignment to filter properties from a given user
      * @param {Object} user 
@@ -89,14 +89,14 @@ const authenticateUser = async (req, res, next) => {
     // If the user's credentials are available
     if (credentials) {
         // Attempt to retrieve the user from the data store
-        const users = await User.findOne({
+        const userDB = await User.findOne({
             where: {
                 emailAddress: credentials.name
             }
         })
-        const user = users.dataValues
         // If a user was successfully retrieved
-        if (user) {
+        if (userDB) {
+            const user = userDB.dataValues
             // compare the user's password (from header) to the user's (from retrieved)
             const authenticated = bcryptjs
             .compareSync(credentials.pass, user.password)

@@ -38,16 +38,19 @@ export class Provider extends Component {
      * @param {String} password 
      */
     signIn = async (emailAddress, password) => {
-        const user = await this.data.getUser(emailAddress, password)
-        if (user !== null) {
-            user.password = password // Only for develepment purpose to persist session
-            Cookies.set('authenticatedUser', JSON.stringify(user), { expires: 1 })
-            // user.password = password // For production to not maintain password at cookies
-            this.setState(() => {
-                return { authenticatedUser: user}
+       return await this.data.getUser(emailAddress, password)
+            .then( user => {
+                    user.password = password // Only for develepment purpose to persist session
+                    Cookies.set('authenticatedUser', JSON.stringify(user), { expires: 1 })
+                    // user.password = password // For production to not maintain password at cookies
+                    this.setState(() => {
+                        return { authenticatedUser: user}
+                    })
+                    return user
             })
-        }
-        return user
+            .catch(error => {
+                throw error
+            })
     }
     
     /**
