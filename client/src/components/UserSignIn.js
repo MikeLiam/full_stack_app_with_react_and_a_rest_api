@@ -51,6 +51,9 @@ export default class UserSignIn extends Component {
       })
   }
 
+  /**
+   * If user cancel redirect to homepage
+   */
   cancel = () => {
     this.props.history.push('/')
   }

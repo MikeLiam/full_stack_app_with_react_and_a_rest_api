@@ -19,6 +19,12 @@ export default class CreateCourse extends Component {
     this.data = new Data();
   }
 
+  componentDidMount() {
+    this.setState(() => {
+        return {user: this.props.context.authenticatedUser}
+    })
+  }
+
   /**
    * Inputs on change handler to manage values
    * @param {Object} event 
@@ -32,12 +38,6 @@ export default class CreateCourse extends Component {
         [name]: value
       };
     });
-  }
-
-  componentDidMount() {
-      this.setState(() => {
-          return {user: this.props.context.authenticatedUser}
-      })
   }
 
   /**
