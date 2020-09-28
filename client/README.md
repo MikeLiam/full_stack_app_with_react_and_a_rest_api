@@ -1,3 +1,78 @@
+# FULL STACK APP WITH REACT AND REST API
+
+## Tenth Full Stack JavaScript Techdegree - Full stack REACT app Project - Unit-10
+
+---
+**APP** using REACT for Client and Express for REST API that provide a way for users to administer a school database containing information about courses: users can interact with the database by _retrieving_ a list of courses, _viewing_ detail for a specific course, as well as _creating_, _updating_ and _deleting_ courses in the database.
+
+In addition, require users to _create an account and _sign in_ to make changes to the database.
+
+Created with [**React js**](https://github.com/reactjs) and consuming [**REST API**](https://github.com/MikeLiam/rest_api) using [**create_react_app**](https://github.com/facebook/create-react-app), [**react_router**](https://github.com/ReactTraining/react-router), first look to landing page:
+
+- Show all existing courses, link to create a new course and options to create a new user or sign in with an existing user:
+![Landing page](https://res.cloudinary.com/da3z5stec/image/upload/v1601300853/Full%20stack%20app/landing_page_b1y0z0.png)
+- To create a new user to be able to modify courses or create a new course, or sign in with user:
+![Sign up/Sign in](https://res.cloudinary.com/da3z5stec/image/upload/v1601300853/Full%20stack%20app/signupin_plv0j9.png)
+- To create a new Course once user has signed in:
+![New Course](https://res.cloudinary.com/da3z5stec/image/upload/v1601300853/Full%20stack%20app/new_course_ryw93m.png)
+- View detail for a specific course once user has signed in and where updates or deletes if user own the course:
+![Detail Course](https://res.cloudinary.com/da3z5stec/image/upload/v1601300853/Full%20stack%20app/detailcourse2_phyinm.png)
+- Updating a course:
+![Update Course](https://res.cloudinary.com/da3z5stec/image/upload/v1601300854/Full%20stack%20app/update_fqqqu1.png)
+
+## Getting Started
+
+### To get up and running the REST API, run the following commands.
+
+Go to _api_ folder and install the dependencies.
+
+```
+npm install
+
+```
+
+Second, seed the SQLite database.
+
+```
+npm run seed
+```
+
+And lastly, start the application listening at [http://localhost:5000/](http://localhost:5000/).
+
+```
+npm start
+```
+
+### To run the client.
+
+Open a new terminal on _client_ folder and install the dependencies.
+
+```
+npm install
+
+```
+
+And lastly, start the application listening at [http://localhost:3000/](http://localhost:3000/).
+
+```
+npm start
+```
+
+---
+
+### Style Customization:
+---
+* Theme based on green palette colours.
+* Courses and new course links styled with clip-path and animation.
+* Added Markdown utility for textareas on view detailed course.
+* Logo as favicon.
+
+---
+
+![MikelIam](https://res.cloudinary.com/da3z5stec/image/upload/v1597004412/Portfolio/logo_about_pemkn6.jpg)
+
+---
+
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
 
 ## Available Scripts
