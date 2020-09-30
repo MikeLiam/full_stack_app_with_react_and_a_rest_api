@@ -38,12 +38,18 @@ const userFieldsValidator = [
     .normalizeEmail()
     .isEmail()
     .withMessage('Invalid emailAddress'),
-    check('password')
+    check('password', 'Please provide a value for "password"')
     .exists({
         checkNull: true,
         checkFalsy: true
     })
-    .withMessage('Please provide a value for "password"'),
+    .custom((value,{req, loc, path}) => {
+        if (value !== req.body.confirmPassword) {
+            throw new Error("Passwords don't match");
+        } else {
+            return value;
+        }
+    })
 ]
 
 /**

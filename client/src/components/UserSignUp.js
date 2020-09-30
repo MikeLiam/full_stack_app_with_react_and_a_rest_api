@@ -33,11 +33,9 @@ export default class UserSignUp extends Component {
   submit = async () => {
     const { context } = this.props
     // Get user info
-    const { firstName, lastName, emailAddress, password } = this.state;
-    // if passwords match
-    if (this.confirmedPassword()) {
+    const { firstName, lastName, emailAddress, password, confirmPassword} = this.state;
       // Assign user object
-      const user = { firstName, lastName, emailAddress, password }
+      const user = { firstName, lastName, emailAddress, password, confirmPassword}
       // request to create new user to api
       await context.data.createUser(user)
         .then( () => {
@@ -58,7 +56,7 @@ export default class UserSignUp extends Component {
           this.props.history.push(error.message)
           }
         })
-      }
+      // }
   }
 
   /**
@@ -66,27 +64,6 @@ export default class UserSignUp extends Component {
    */
   cancel = () => {
     this.props.history.push('/')
-  }
-
-  /**
-   * Passwords match or show validation error
-   */
-  confirmedPassword() {
-    const { password, confirmPassword } = this.state;
-    let message = ""
-    // if not empty
-    if (password !== '' && confirmPassword !== '') {
-      // if match
-      if (password === confirmPassword){
-        return true
-      } else {
-        message = "Passwords don't match"
-      }
-    } else {
-      message = "Passwords can't be empty"
-    }
-    this.setState({errors: [message]})
-    return false
   }
 
   render() {
