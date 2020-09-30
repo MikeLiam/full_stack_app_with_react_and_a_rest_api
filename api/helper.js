@@ -42,14 +42,10 @@ const userFieldsValidator = [
     .exists({
         checkNull: true,
         checkFalsy: true
-    })
-    .custom((value,{req, loc, path}) => {
-        if (value !== req.body.confirmPassword) {
-            throw new Error("Passwords don't match");
-        } else {
-            return value;
-        }
-    })
+    }),
+    check('confirmPassword', 'Confirm Password must have the same value as the password field')
+    .exists()
+    .custom((value,{req, loc, path}) =>  value === req.body.password),
 ]
 
 /**
