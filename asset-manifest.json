@@ -1,22 +1,22 @@
 {
   "files": {
     "main.css": "/full_stack_app_with_react_and_a_rest_api/static/css/main.b05ce75d.chunk.css",
-    "main.js": "/full_stack_app_with_react_and_a_rest_api/static/js/main.b9760efe.chunk.js",
-    "main.js.map": "/full_stack_app_with_react_and_a_rest_api/static/js/main.b9760efe.chunk.js.map",
+    "main.js": "/full_stack_app_with_react_and_a_rest_api/static/js/main.ba4f7b18.chunk.js",
+    "main.js.map": "/full_stack_app_with_react_and_a_rest_api/static/js/main.ba4f7b18.chunk.js.map",
     "runtime-main.js": "/full_stack_app_with_react_and_a_rest_api/static/js/runtime-main.4a411738.js",
     "runtime-main.js.map": "/full_stack_app_with_react_and_a_rest_api/static/js/runtime-main.4a411738.js.map",
-    "static/js/2.275dbe72.chunk.js": "/full_stack_app_with_react_and_a_rest_api/static/js/2.275dbe72.chunk.js",
-    "static/js/2.275dbe72.chunk.js.map": "/full_stack_app_with_react_and_a_rest_api/static/js/2.275dbe72.chunk.js.map",
+    "static/js/2.e2eea7c4.chunk.js": "/full_stack_app_with_react_and_a_rest_api/static/js/2.e2eea7c4.chunk.js",
+    "static/js/2.e2eea7c4.chunk.js.map": "/full_stack_app_with_react_and_a_rest_api/static/js/2.e2eea7c4.chunk.js.map",
     "index.html": "/full_stack_app_with_react_and_a_rest_api/index.html",
-    "precache-manifest.e64e282ab46e9a3ff4dd397f2b98a763.js": "/full_stack_app_with_react_and_a_rest_api/precache-manifest.e64e282ab46e9a3ff4dd397f2b98a763.js",
+    "precache-manifest.ae1b7b73e881085dea368c56f4a8524c.js": "/full_stack_app_with_react_and_a_rest_api/precache-manifest.ae1b7b73e881085dea368c56f4a8524c.js",
     "service-worker.js": "/full_stack_app_with_react_and_a_rest_api/service-worker.js",
     "static/css/main.b05ce75d.chunk.css.map": "/full_stack_app_with_react_and_a_rest_api/static/css/main.b05ce75d.chunk.css.map",
-    "static/js/2.275dbe72.chunk.js.LICENSE.txt": "/full_stack_app_with_react_and_a_rest_api/static/js/2.275dbe72.chunk.js.LICENSE.txt"
+    "static/js/2.e2eea7c4.chunk.js.LICENSE.txt": "/full_stack_app_with_react_and_a_rest_api/static/js/2.e2eea7c4.chunk.js.LICENSE.txt"
   },
   "entrypoints": [
     "static/js/runtime-main.4a411738.js",
-    "static/js/2.275dbe72.chunk.js",
+    "static/js/2.e2eea7c4.chunk.js",
     "static/css/main.b05ce75d.chunk.css",
-    "static/js/main.b9760efe.chunk.js"
+    "static/js/main.ba4f7b18.chunk.js"
   ]
 }
