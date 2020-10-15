@@ -22,9 +22,27 @@ Created with [**React js**](https://github.com/reactjs) and consuming [**REST AP
 
 ## Getting Started
 
-### To get up and running the REST API, run the following commands.
+### REST API live on:
+[REST API LIVE](https://restapimikeliam.herokuapp.com/api/).
 
-Go to _api_ folder and install the dependencies.
+### To run the client.
+
+Open a new terminal on _client_ folder and install the dependencies.
+
+```
+npm install
+
+```
+
+And lastly, start the application listening at [http://localhost:3000/](http://localhost:3000/).
+
+```
+npm start
+```
+
+### To get up and running the REST API "locally", run the following commands.
+
+Go to _[REST API repository](https://github.com/MikeLiam/rest_api)_ .
 
 ```
 npm install
@@ -42,22 +60,6 @@ And lastly, start the application listening at [http://localhost:5000/](http://l
 ```
 npm start
 ```
-
-### To run the client.
-
-Open a new terminal on _client_ folder and install the dependencies.
-
-```
-npm install
-
-```
-
-And lastly, start the application listening at [http://localhost:3000/](http://localhost:3000/).
-
-```
-npm start
-```
-
 ---
 
 ### Style Customization:
