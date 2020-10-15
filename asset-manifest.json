@@ -1,0 +1,22 @@
+{
+  "files": {
+    "main.css": "/full_stack_app_with_react_and_a_rest_api/static/css/main.b05ce75d.chunk.css",
+    "main.js": "/full_stack_app_with_react_and_a_rest_api/static/js/main.4935c02d.chunk.js",
+    "main.js.map": "/full_stack_app_with_react_and_a_rest_api/static/js/main.4935c02d.chunk.js.map",
+    "runtime-main.js": "/full_stack_app_with_react_and_a_rest_api/static/js/runtime-main.4a411738.js",
+    "runtime-main.js.map": "/full_stack_app_with_react_and_a_rest_api/static/js/runtime-main.4a411738.js.map",
+    "static/js/2.275dbe72.chunk.js": "/full_stack_app_with_react_and_a_rest_api/static/js/2.275dbe72.chunk.js",
+    "static/js/2.275dbe72.chunk.js.map": "/full_stack_app_with_react_and_a_rest_api/static/js/2.275dbe72.chunk.js.map",
+    "index.html": "/full_stack_app_with_react_and_a_rest_api/index.html",
+    "precache-manifest.e05280856c80b8beb971c14ef28c8150.js": "/full_stack_app_with_react_and_a_rest_api/precache-manifest.e05280856c80b8beb971c14ef28c8150.js",
+    "service-worker.js": "/full_stack_app_with_react_and_a_rest_api/service-worker.js",
+    "static/css/main.b05ce75d.chunk.css.map": "/full_stack_app_with_react_and_a_rest_api/static/css/main.b05ce75d.chunk.css.map",
+    "static/js/2.275dbe72.chunk.js.LICENSE.txt": "/full_stack_app_with_react_and_a_rest_api/static/js/2.275dbe72.chunk.js.LICENSE.txt"
+  },
+  "entrypoints": [
+    "static/js/runtime-main.4a411738.js",
+    "static/js/2.275dbe72.chunk.js",
+    "static/css/main.b05ce75d.chunk.css",
+    "static/js/main.4935c02d.chunk.js"
+  ]
+}
