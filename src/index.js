@@ -3,13 +3,16 @@ import ReactDOM from 'react-dom';
 import './index.css';
 import App from './App';
 import * as serviceWorker from './serviceWorker';
+import { HashRouter } from 'react-router-dom';
 import { Provider } from './Context';
 
 ReactDOM.render(
   <React.StrictMode>
-    <Provider>
-      <App />
-    </Provider>
+    <HashRouter basename={process.env.PUBLIC_URL}>
+      <Provider>
+        <App />
+      </Provider>
+    </HashRouter>
   </React.StrictMode>,
   document.getElementById('root')
 );
