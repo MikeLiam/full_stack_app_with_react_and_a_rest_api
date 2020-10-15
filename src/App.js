@@ -3,7 +3,8 @@ import './App.css';
 import {
   BrowserRouter as Router,
   Route,
-  Switch
+  Switch,
+  Redirect
 } from 'react-router-dom';
 // Stateless components
 import Header from './components/Header';
@@ -34,11 +35,12 @@ const CreateCourseWithContext = withContext(CreateCourse)
 
 function App() {
   return (
-    <Router>
+    <Router basename={process.env.PUBLIC_URL}>
     <div>
       <HeaderWithContext />
 
       <Switch>
+        <Route exact path="/full_stack_app_with_react_and_a_rest_api" render={ () => <Redirect to="/"/>}/>
         <Route exact path="/" component={CoursesWithContext} />
         <Route path="/signin" component={UserSignInWithContext} />
         <Route path="/signup" component={UserSignUpWithContext} />
